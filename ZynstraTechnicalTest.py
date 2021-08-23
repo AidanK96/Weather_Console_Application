@@ -159,18 +159,20 @@ def option4():
                         json_data = json.loads(url.read().decode())
                         for day in days:
                             x=0
+                            #Checks for each hour of the day, if windspeed >= the current max make that the current max
                             while x < 24:     
                                 wind_speed = (json_data[day][x]['wind_speed']) 
                                 if wind_speed >= current_max:
                                     max_windspeed = wind_speed
                                     current_max = max_windspeed
+                                    #Adds the current city from city_names for the current windspeed
                                     current_max_city = city_names[z]
                                     print(int(current_max),current_max_city)
                                 x+=1
+        #JSON formatting and saving. 
         json_output = {"Wind speed": current_max, "City" : current_max_city}
         output = json.dumps(json_output)
         save_file(output)
-        menuChoice()
         print(json_output)
         menuChoice()                        
     except Exception:
@@ -196,7 +198,7 @@ def option5():
                 i+=1
             #ounts through the cities within the cities_names list starting from 0
             for z in range (0,len(city_names)):        
-                #For loop for each city in cities, used to checl the temperature and precipitation for each hour to check bool value.
+                #For loop for each city in cities, used to check the temperature and precipitation for each hour to check bool value.
                 for city in cities:
                     weather_api = f'{weather_url}{city_names[z]}/'
                     with urllib.request.urlopen(weather_api) as url :
